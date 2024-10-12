@@ -132,7 +132,7 @@ bindsym $mod+0 workspace number $ws10
 # Force workspace to open with particular applications
 assign [class="X-terminal-emulator"] $ws1
 assign [class="Code"] $ws2
-assign [class="Firefox-esr"] $ws3
+assign [class="firefox-esr"] $ws3
 assign [class="obsidian"] $ws4
 assign [class="pomatez"] $ws4
 # move focused container to workspace
