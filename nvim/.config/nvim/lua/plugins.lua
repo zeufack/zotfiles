@@ -12,6 +12,9 @@ pckr.add {
     'williamboman/mason.nvim';
     'williamboman/mason-lspconfig.nvim';
 
+    -- Formatter
+    'stevearc/conform.nvim';
+
     -- Autocompletion
     'hrsh7th/cmp-nvim-lsp';
     'hrsh7th/cmp-buffer';
