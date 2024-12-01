@@ -1,6 +1,5 @@
 local map = vim.api.nvim_set_keymap
-local opts = {noremap = true, silent = true }
-
+local opts = { noremap = true, silent = true }
 
 -- Set leader key to space
 vim.g.mapleader = " "
@@ -14,7 +13,7 @@ map("n", "<C-l>", "<C-w>l", opts)
 -- Save file
 map("n", "<leader>w", ":w<CR>", opts)
 
--- Quit 
+-- Quit
 map("n", "<leader>q", ":q<CR>", opts)
 
 -- No highlight
@@ -22,5 +21,3 @@ map("n", "<leader>h", ":noh<CR>", opts)
 
 -- Explorer
 map("n", "<leader>e", ":Lexplore 30<CR>", opts)
-
-

@@ -199,7 +199,8 @@ vim.keymap.set("n", "<leader>fs", builtin.grep_string, {})
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, {})
 
 -- nvim-treesitter
-require("nvim-tree").setup({})
+local nvimtree = require("nvim-tree")
+nvimtree.setup({})
 vim.keymap.set("n", "<leader>e", "<cm>NvimTreeToggle<cr>")
 
 -- Gitsigns
@@ -207,3 +208,5 @@ require("gitsigns").setup()
 
 -- Lualine
 require("lualine").setup()
+
+require("barbar").setup()
