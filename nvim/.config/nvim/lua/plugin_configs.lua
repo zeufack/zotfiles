@@ -4,7 +4,7 @@ vim.cmd([[colorscheme tokyonight]])
 -- Treesitter
 require("nvim-treesitter.configs").setup({
 	-- A list of parser names, or "all" (the listed parsers MUST always be installed)
-	ensure_installed = { "go", "lua", "vim", "typescript", "javascript" },
+	ensure_installed = { "go", "lua", "vim", "typescript", "javascript", "python", "zig" },
 	-- Install parsers synchronously (only applied to `ensure_installed`)
 	sync_install = false,
 
@@ -20,7 +20,7 @@ require("nvim-treesitter.configs").setup({
 -- Mason setup
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls", "rust_analyzer", "gopls", "eslint", "ts_ls" },
+	ensure_installed = { "lua_ls", "rust_analyzer", "gopls", "eslint", "ts_ls", "pyright" },
 	automatic_installation = true,
 })
 
