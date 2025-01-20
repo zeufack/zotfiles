@@ -42,7 +42,7 @@ pckr.add({
 	-- Git intergration
 	"lewis6991/gitsigns.nvim",
 	-- Tabline
-	"romgrk/barbar.nvim",
+	-- "romgrk/barbar.nvim",
 
 	-- Tabline icons sets
 	-- "nvim-tree/nvim-web-devicons",

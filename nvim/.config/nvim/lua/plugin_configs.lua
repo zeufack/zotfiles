@@ -211,5 +211,3 @@ require("gitsigns").setup()
 
 -- Lualine
 require("lualine").setup()
-
-require("barbar").setup()
