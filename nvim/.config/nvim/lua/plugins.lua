@@ -48,4 +48,7 @@ pckr.add({
 	-- "nvim-tree/nvim-web-devicons",
 	-- Status line
 	"nvim-lualine/lualine.nvim",
+
+    -- Add notify
+    {"folke/noice.nvim", requires = {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"}}
 })
