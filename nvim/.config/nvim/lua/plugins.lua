@@ -1,54 +1,73 @@
 local pckr = require("pckr")
 
 pckr.add({
-	-- Theme
-	"folke/tokyonight.nvim",
+    -- Theme
+    "folke/tokyonight.nvim", -- Treesitter
+    {
+        "nvim-treesitter/nvim-treesitter",
+        run = ":TSUpdate",
+        lazy = true,
+        event = "BufRead"
+    }, -- LSP
+    { "neovim/nvim-lspconfig",             lazy = true,       event = "BufRead" },
+    { "williamboman/mason.nvim",           lazy = true,       cmd = "Mason" },
+    { "williamboman/mason-lspconfig.nvim", lazy = true,       after = "mason.nvim" },
 
-	-- Treesitter
-	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
+    -- Formatter
+    { "stevearc/conform.nvim",             lazy = true,       event = "BufWritePre" },
 
-	-- LSP
-	"neovim/nvim-lspconfig",
-	"williamboman/mason.nvim",
-	"williamboman/mason-lspconfig.nvim",
+    -- Autocompletion
+    { "hrsh7th/nvim-cmp",                  lazy = true,       event = "InsertEnter" },
+    { "hrsh7th/cmp-nvim-lsp",              after = "nvim-cmp" },
+    { "hrsh7th/cmp-buffer",                after = "nvim-cmp" },
+    { "hrsh7th/cmp-path",                  after = "nvim-cmp" },
+    { "hrsh7th/cmp-cmdline",               after = "nvim-cmp" },
+    { "L3MON4D3/LuaSnip",                  after = "nvim-cmp" },
+    { "saadparwaiz1/cmp_luasnip",          after = "nvim-cmp" }, -- Auto-close
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        config = function()
+            require("nvim-autopairs").setup({
+                check_ts = true,
+                ts_config = {
+                    lua = { "string" },
+                    javascript = { "template_string" },
+                    java = false
+                },
+                disable_filetype = { "TelescopePrompt", "vim" }
+            })
+        end,
+        dependencies = { "nvim-treesitter/nvim-treesitter" }           -- Ensure treesitter is available
+    },                                                                 -- Go-specific plugins
+    { "fatih/vim-go",                  lazy = true,       ft = "go" }, -- Fuzzy finder
+    { "nvim-lua/plenary.nvim",         lazy = true },
+    { "nvim-telescope/telescope.nvim", cmd = "Telescope", after = "plenary.nvim" },
+    {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        run = "make",
+        after = "telescope.nvim"
+    }, { "nvim-telescope/telescope-file-browser.nvim", after = "telescope.nvim" },
 
-	-- Formatter
-	"stevearc/conform.nvim",
+    -- Comment
+    { "numToStr/Comment.nvim",                      lazy = true,             event = "BufRead" }, -- Colorizer
+    { "norcalli/nvim-colorizer.lua",                lazy = true,             event = "BufRead" },
 
-	-- Autocompletion
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"hrsh7th/cmp-cmdline",
-	"hrsh7th/nvim-cmp",
-	"L3MON4D3/LuaSnip",
-	"saadparwaiz1/cmp_luasnip",
+    -- File Explorer
+    { "nvim-tree/nvim-web-devicons",                lazy = true }, {
+    "nvim-tree/nvim-tree.lua",
+    cmd = "NvimTreeToggle",
+    after = "nvim-web-devicons"
+},                                                                   -- Git integration
+    { "lewis6991/gitsigns.nvim",   lazy = true, event = "BufRead" }, -- Tabline
+    { "romgrk/barbar.nvim",        lazy = true, event = "BufRead" }, -- Status line
+    { "nvim-lualine/lualine.nvim", lazy = true, event = "BufRead" },
 
-	-- Auto-cole
-	"windwp/nvim-autopairs",
-
-	-- Go-specific plugins
-	"fatih/vim-go",
-
-	-- Fuzzy finder
-	"nvim-lua/plenary.nvim",
-	"nvim-telescope/telescope.nvim",
-	{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-
-	-- File Explorer
-	"nvim-tree/nvim-web-devicons",
-	"nvim-tree/nvim-tree.lua",
-
-	-- Git intergration
-	"lewis6991/gitsigns.nvim",
-	-- Tabline
-	-- "romgrk/barbar.nvim",
-
-	-- Tabline icons sets
-	-- "nvim-tree/nvim-web-devicons",
-	-- Status line
-	"nvim-lualine/lualine.nvim",
-
-    -- Add notify
-    {"folke/noice.nvim", requires = {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"}}
+    -- Notifications
+    {
+        "folke/noice.nvim",
+        lazy = true,
+        event = "VimEnter",
+        requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" }
+    }, { "lewis6991/pckr.nvim" }
 })

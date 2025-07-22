@@ -20,4 +20,4 @@ map("n", "<leader>q", ":q<CR>", opts)
 map("n", "<leader>h", ":noh<CR>", opts)
 
 -- Explorer
-map("n", "<leader>e", ":Lexplore 30<CR>", opts)
+map("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
