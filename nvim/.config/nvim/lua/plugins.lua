@@ -27,21 +27,10 @@ pckr.add({
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
-        config = function()
-            require("nvim-autopairs").setup({
-                check_ts = true,
-                ts_config = {
-                    lua = { "string" },
-                    javascript = { "template_string" },
-                    java = false
-                },
-                disable_filetype = { "TelescopePrompt", "vim" }
-            })
-        end,
         dependencies = { "nvim-treesitter/nvim-treesitter" }           -- Ensure treesitter is available
     },                                                                 -- Go-specific plugins
     { "fatih/vim-go",                  lazy = true,       ft = "go" }, -- Fuzzy finder
-    { "nvim-lua/plenary.nvim",         lazy = true },
+        { "nvim-lua/plenary.nvim",         lazy = true },
     { "nvim-telescope/telescope.nvim", cmd = "Telescope", after = "plenary.nvim" },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -60,7 +49,7 @@ pckr.add({
     after = "nvim-web-devicons"
 },                                                                   -- Git integration
     { "lewis6991/gitsigns.nvim",   lazy = true, event = "BufRead" }, -- Tabline
-    { "romgrk/barbar.nvim",        lazy = true, event = "BufRead" }, -- Status line
+    { "romgrk/barbar.nvim",        lazy = true, event = "VimEnter" }, -- Tabline, -- Status line
     { "nvim-lualine/lualine.nvim", lazy = true, event = "BufRead" },
 
     -- Notifications
@@ -69,5 +58,5 @@ pckr.add({
         lazy = true,
         event = "VimEnter",
         requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" }
-    }, { "lewis6991/pckr.nvim" }
+    }
 })

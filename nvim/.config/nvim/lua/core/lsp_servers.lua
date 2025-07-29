@@ -1,0 +1,1 @@
+return { "gopls", "lua_ls", "ts_ls", "pyright" }

@@ -15,54 +15,34 @@ require("nvim-treesitter.configs").setup({
     auto_install = true,
 
     -- List of parsers to ignore installing (or "all")
-    ignore_install = { "javascript" },
+    ignore_install = {},
     highlight = { enable = true }
 })
+
+local servers = require("core.lsp_servers")
 
 -- Mason setup
 require("mason").setup()
 require("mason-lspconfig").setup({
-    ensure_installed = {
-        "lua_ls", "rust_analyzer", "gopls", "eslint", "ts_ls", "pyright"
-    },
-    automatic_installation = true
+    ensure_installed = servers,
+    automatic_installation = true,
+    handlers = {
+        function(server_name)
+            lspconfig[server_name].setup({
+                capabilities = capabilities,
+                settings = lsp_configs[server_name] or {},
+            })
+        end,
+    }
 })
-
--- LSP configuration
-local lspconfig = require("lspconfig")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-local servers = { "gopls", "lua_ls", "ts_ls", "pyright" }
-
-for _, server in ipairs(servers) do
-    lspconfig[server].setup({
-        capabilities = capabilities,
-        settings = server == "lua_ls" and {
-            Lua = {
-                diagnostics = { globals = { "vim" } },
-                workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                    checkThirdParty = false
-                }
-            }
-        } or server == "gopls" and {
-            gopls = {
-                analyses = {
-                    unusedparams = true
-                },
-                staticcheck = true
-            }
-        } or {}
-    })
-end
 
 -- Global LSP keybindings
 vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
     callback = function(ev)
         local opts = { buffer = ev.buf }
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "gd", require('telescope.builtin').lsp_definitions, opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
         vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
@@ -79,6 +59,8 @@ conform.setup({
         lua = { "stylua" },
         python = { "isort", "black" },
         rust = { "rustfmt" },
+        go = { "goimports" },
+        zig = { "zigfmt" },
         javascript = { "prettierd", "prettier" },
         typescript = { "prettierd", "prettier" }
     },
@@ -159,6 +141,9 @@ telescope.setup({
             override_generic_sorter = true,
             override_file_sorter = true,
             case_mode = "smart_case"
+        },
+        lsp = {
+            jump_if_one_result = true,
         }
     }
 })
