@@ -20,6 +20,8 @@ require("nvim-treesitter.configs").setup({
 })
 
 local servers = require("core.lsp_servers")
+local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Mason setup
 require("mason").setup()
@@ -30,7 +32,6 @@ require("mason-lspconfig").setup({
         function(server_name)
             lspconfig[server_name].setup({
                 capabilities = capabilities,
-                settings = lsp_configs[server_name] or {},
             })
         end,
     }
