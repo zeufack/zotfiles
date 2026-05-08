@@ -1,3 +1,7 @@
+-- Disable netrw so nvim-tree owns directory opens (must happen before plugins load).
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 local opt = vim.opt
 
 -- Line numbers

@@ -1,62 +1,163 @@
 local pckr = require("pckr")
+local event = require("pckr.loader.event")
+local cmd = require("pckr.loader.cmd")
+local keys = require("pckr.loader.keys")
+
+local function cfg(name)
+    return function() require("plugin_configs." .. name) end
+end
+
+-- Custom pckr cond: load nvim-tree on VimEnter only if nvim was launched with a directory arg.
+local function on_dir_arg()
+    return function(load)
+        vim.api.nvim_create_autocmd("VimEnter", {
+            once = true,
+            desc = "nvim-tree: load and open when nvim was launched with a directory",
+            callback = function()
+                local first = vim.fn.argv(0)
+                if type(first) == "string" and first ~= "" and vim.fn.isdirectory(first) == 1 then
+                    load()
+                    require("nvim-tree.api").tree.open({ path = first, current_window = true })
+                end
+            end,
+        })
+    end
+end
 
 pckr.add({
-    -- Theme
-    "folke/tokyonight.nvim", -- Treesitter
+    -- Theme: eager so colors apply before the first paint.
+    {
+        "folke/tokyonight.nvim",
+        config = function() vim.cmd.colorscheme("tokyonight") end,
+    },
+
+    -- Treesitter (+ JSX/HTML auto-tags via ts-autotag)
     {
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
-        lazy = true,
-        event = "BufRead"
-    }, -- LSP
-    { "neovim/nvim-lspconfig",             lazy = true,       event = "BufRead" },
-    { "williamboman/mason.nvim",           lazy = true,       cmd = "Mason" },
-    { "williamboman/mason-lspconfig.nvim", lazy = true,       after = "mason.nvim" },
+        cond = event("BufRead"),
+        requires = { "windwp/nvim-ts-autotag" },
+        config = cfg("treesitter"),
+    },
+
+    -- LSP — pulls mason + mason-lspconfig + cmp-nvim-lsp + SchemaStore via requires.
+    {
+        "neovim/nvim-lspconfig",
+        cond = event("BufReadPre"),
+        requires = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+            "b0o/SchemaStore.nvim",
+        },
+        config = cfg("lsp"),
+    },
+
+    -- TypeScript tooling — replaces ts_ls with a faster, richer implementation.
+    -- Loads on TS/JS filetypes; lspconfig is already loaded by BufReadPre at that point.
+    {
+        "pmizio/typescript-tools.nvim",
+        cond = event("FileType", { "typescript", "typescriptreact", "javascript", "javascriptreact" }),
+        requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        config = cfg("typescript_tools"),
+    },
+
+    -- Standalone Mason trigger so :Mason works before any buffer is read.
+    { "williamboman/mason.nvim", cond = cmd("Mason") },
 
     -- Formatter
-    { "stevearc/conform.nvim",             lazy = true,       event = "BufWritePre" },
+    {
+        "stevearc/conform.nvim",
+        cond = event("BufWritePre"),
+        config = cfg("conform"),
+    },
 
-    -- Autocompletion
-    { "hrsh7th/nvim-cmp",                  lazy = true,       event = "InsertEnter" },
-    { "hrsh7th/cmp-nvim-lsp",              after = "nvim-cmp" },
-    { "hrsh7th/cmp-buffer",                after = "nvim-cmp" },
-    { "hrsh7th/cmp-path",                  after = "nvim-cmp" },
-    { "hrsh7th/cmp-cmdline",               after = "nvim-cmp" },
-    { "L3MON4D3/LuaSnip",                  after = "nvim-cmp" },
-    { "saadparwaiz1/cmp_luasnip",          after = "nvim-cmp" }, -- Auto-close
+    -- Autocompletion — pulls all cmp sources + LuaSnip + autopairs via requires.
+    -- Autopairs is required here so nvim-autopairs.completion.cmp is on rtp
+    -- when cmp.lua wires up confirm_done.
     {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        dependencies = { "nvim-treesitter/nvim-treesitter" }           -- Ensure treesitter is available
-    },                                                                 -- Go-specific plugins
-    { "fatih/vim-go",                  lazy = true,       ft = "go" }, -- Fuzzy finder
-        { "nvim-lua/plenary.nvim",         lazy = true },
-    { "nvim-telescope/telescope.nvim", cmd = "Telescope", after = "plenary.nvim" },
+        "hrsh7th/nvim-cmp",
+        cond = event("InsertEnter"),
+        requires = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
+            {
+                "L3MON4D3/LuaSnip",
+                requires = { "rafamadriz/friendly-snippets" },
+                config = function() end,
+            },
+            "saadparwaiz1/cmp_luasnip",
+            { "windwp/nvim-autopairs", config = cfg("autopairs") },
+        },
+        config = cfg("cmp"),
+    },
+
+    -- Go-specific
+    { "fatih/vim-go", cond = event("FileType", "go") },
+
+    -- Telescope — load on :Telescope (keymaps in core/keymaps.lua use <cmd>Telescope ...<CR>).
     {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make",
-        after = "telescope.nvim"
-    }, { "nvim-telescope/telescope-file-browser.nvim", after = "telescope.nvim" },
+        "nvim-telescope/telescope.nvim",
+        cond = cmd("Telescope"),
+        requires = {
+            "nvim-lua/plenary.nvim",
+            { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+            "nvim-telescope/telescope-file-browser.nvim",
+        },
+        config = cfg("telescope"),
+    },
 
     -- Comment
-    { "numToStr/Comment.nvim",                      lazy = true,             event = "BufRead" }, -- Colorizer
-    { "norcalli/nvim-colorizer.lua",                lazy = true,             event = "BufRead" },
+    {
+        "numToStr/Comment.nvim",
+        cond = { keys("n", "gc"), keys("n", "gcc"), keys("v", "gc") },
+        config = function() require("Comment").setup() end,
+    },
+
+    -- Colorizer
+    {
+        "norcalli/nvim-colorizer.lua",
+        cond = event("BufRead"),
+        config = function() require("colorizer").setup() end,
+    },
 
     -- File Explorer
-    { "nvim-tree/nvim-web-devicons",                lazy = true }, {
-    "nvim-tree/nvim-tree.lua",
-    cmd = "NvimTreeToggle",
-    after = "nvim-web-devicons"
-},                                                                   -- Git integration
-    { "lewis6991/gitsigns.nvim",   lazy = true, event = "BufRead" }, -- Tabline
-    { "romgrk/barbar.nvim",        lazy = true, event = "VimEnter" }, -- Tabline, -- Status line
-    { "nvim-lualine/lualine.nvim", lazy = true, event = "BufRead" },
+    {
+        "nvim-tree/nvim-tree.lua",
+        cond = { cmd("NvimTreeToggle"), on_dir_arg() },
+        requires = { "nvim-tree/nvim-web-devicons" },
+        config = cfg("nvim_tree"),
+    },
 
-    -- Notifications
+    -- Git integration
+    {
+        "lewis6991/gitsigns.nvim",
+        cond = event("BufReadPre"),
+        config = function() require("gitsigns").setup() end,
+    },
+
+    -- Status line
+    {
+        "nvim-lualine/lualine.nvim",
+        cond = event("VimEnter"),
+        config = function() require("lualine").setup() end,
+    },
+
+    -- Buffer tabs
+    {
+        "akinsho/bufferline.nvim",
+        cond = event("VimEnter"),
+        requires = { "nvim-tree/nvim-web-devicons" },
+        config = cfg("bufferline"),
+    },
+
+    -- Notifications / cmdline UI
     {
         "folke/noice.nvim",
-        lazy = true,
-        event = "VimEnter",
-        requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" }
-    }
+        cond = event("VimEnter"),
+        requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
+        config = cfg("noice"),
+    },
 })
