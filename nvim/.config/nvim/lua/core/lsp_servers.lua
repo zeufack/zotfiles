@@ -2,6 +2,7 @@ return {
     "gopls",
     "lua_ls",
     "pyright",
+    "ruff",
     -- TS/JS/React/Next stack
     "ts_ls", -- installed via mason for typescript-tools.nvim; setup is no-op'd in lsp.lua
     "eslint",

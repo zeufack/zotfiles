@@ -65,6 +65,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
+-- Python virtualenv picker (cmd lazy-loads the plugin).
+map("n", "<leader>vs", "<cmd>VenvSelect<CR>", { desc = "Venv: select" })
+map("n", "<leader>vc", "<cmd>VenvSelectCached<CR>", { desc = "Venv: load cached" })
+
 -- TypeScript tools convenience commands (only meaningful in TS/JS buffers).
 map("n", "<leader>to", "<cmd>TSToolsOrganizeImports<CR>", { desc = "TS: organize imports" })
 map("n", "<leader>ta", "<cmd>TSToolsAddMissingImports<CR>", { desc = "TS: add missing imports" })

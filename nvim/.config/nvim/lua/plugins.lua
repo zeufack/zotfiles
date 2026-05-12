@@ -94,8 +94,45 @@ pckr.add({
         config = cfg("cmp"),
     },
 
-    -- Go-specific
-    { "fatih/vim-go", cond = event("FileType", "go") },
+    -- Python: virtualenv picker. :VenvSelect activates an env for LSP + DAP.
+    {
+        "linux-cultist/venv-selector.nvim",
+        cond = cmd("VenvSelect"),
+        requires = {
+            "neovim/nvim-lspconfig",
+            "nvim-telescope/telescope.nvim",
+            "mfussenegger/nvim-dap-python",
+        },
+        config = cfg("venv_selector"),
+    },
+
+    -- Debugging: nvim-dap + dap-ui + dap-python + dap-go.
+    -- Run :MasonInstall debugpy delve once after first launch.
+    {
+        "mfussenegger/nvim-dap",
+        cond = event("FileType", { "python", "go" }),
+        requires = {
+            { "rcarriga/nvim-dap-ui", requires = { "nvim-neotest/nvim-nio" } },
+            "mfussenegger/nvim-dap-python",
+            "leoluz/nvim-dap-go",
+        },
+        config = cfg("dap"),
+    },
+
+    -- Test runner: neotest with pytest + go adapters.
+    {
+        "nvim-neotest/neotest",
+        cond = event("FileType", { "python", "go" }),
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-neotest/nvim-nio",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-neotest/neotest-python",
+            "fredrikaverpil/neotest-golang",
+        },
+        config = cfg("neotest"),
+    },
 
     -- Telescope — load on :Telescope (keymaps in core/keymaps.lua use <cmd>Telescope ...<CR>).
     {
@@ -159,5 +196,12 @@ pckr.add({
         cond = event("VimEnter"),
         requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
         config = cfg("noice"),
+    },
+
+    -- Keymap discovery popup (lazy.vim-style help)
+    {
+        "folke/which-key.nvim",
+        cond = event("VimEnter"),
+        config = cfg("which_key"),
     },
 })
