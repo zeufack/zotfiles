@@ -11,4 +11,8 @@ return {
     "html",
     "cssls",
     "emmet_language_server",
+    -- DevOps: Docker + Kubernetes
+    "dockerls", -- Dockerfiles
+    "docker_compose_language_service", -- compose.yaml / docker-compose.yml
+    "yamlls", -- YAML + Kubernetes manifests (schemas wired in lsp.lua)
 }

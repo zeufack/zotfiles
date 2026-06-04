@@ -1,5 +1,10 @@
 local servers = require("core.lsp_servers")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = vim.tbl_deep_extend(
+    "force",
+    vim.lsp.protocol.make_client_capabilities(),
+    require("cmp_nvim_lsp").default_capabilities()
+)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 vim.lsp.config("*", { capabilities = capabilities })
 
@@ -8,6 +13,28 @@ vim.lsp.config("jsonls", {
         json = {
             schemas = require("schemastore").json.schemas(),
             validate = { enable = true },
+        },
+    },
+})
+
+-- YAML + Kubernetes. SchemaStore supplies the catalog (compose, GH Actions, etc.);
+-- the bundled `kubernetes` schema is mapped to common manifest locations since k8s
+-- YAML has no reliable file-name convention.
+vim.lsp.config("yamlls", {
+    settings = {
+        yaml = {
+            -- Use SchemaStore instead of yamlls' own remote schema store.
+            schemaStore = { enable = false, url = "" },
+            schemas = vim.tbl_extend("force", require("schemastore").yaml.schemas(), {
+                kubernetes = {
+                    "k8s/**/*.{yml,yaml}",
+                    "kube/**/*.{yml,yaml}",
+                    "manifests/**/*.{yml,yaml}",
+                    "*.k8s.{yml,yaml}",
+                },
+            }),
+            -- Kubernetes manifests intentionally don't keep keys alphabetical.
+            keyOrdering = false,
         },
     },
 })

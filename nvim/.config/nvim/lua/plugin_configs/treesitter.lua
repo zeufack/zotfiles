@@ -4,6 +4,8 @@ require("nvim-treesitter.configs").setup({
         -- TS / React / Next.js stack
         "javascript", "typescript", "tsx", "jsdoc",
         "html", "css", "scss", "json", "json5", "markdown",
+        -- DevOps
+        "dockerfile", "yaml",
     },
     sync_install = false,
     auto_install = true,

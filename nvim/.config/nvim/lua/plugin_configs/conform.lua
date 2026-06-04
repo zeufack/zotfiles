@@ -7,6 +7,7 @@ require("conform").setup({
         zig = { "zigfmt" },
         javascript = { "prettierd", "prettier" },
         typescript = { "prettierd", "prettier" },
+        yaml = { "prettierd", "prettier" },
     },
     format_on_save = {
         timeout_ms = 1000,
