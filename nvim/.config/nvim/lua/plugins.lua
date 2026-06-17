@@ -75,9 +75,10 @@ pckr.add({
     -- Autocompletion — pulls all cmp sources + LuaSnip + autopairs via requires.
     -- Autopairs is required here so nvim-autopairs.completion.cmp is on rtp
     -- when cmp.lua wires up confirm_done.
+    -- Load on BufReadPost so the whole cmp tree is ready before first InsertEnter.
     {
         "hrsh7th/nvim-cmp",
-        cond = event("InsertEnter"),
+        cond = event("BufReadPost"),
         requires = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
