@@ -111,7 +111,7 @@ set $ws2 "2 Vscode"
 set $ws3 "3 FireFox"
 set $ws4 "4 Obsidian"
 set $ws5 "5 VLC"
-set $ws6 "6"
+set $ws6 "6 Chrome"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -131,10 +131,11 @@ bindsym $mod+0 workspace number $ws10
 
 # Force workspace to open with particular applications
 assign [class="ghostty"] $ws1
-assign [class="Code"] $ws2
+assign [class="code"] $ws2
 assign [class="firefox-esr"] $ws3
 assign [class="obsidian"] $ws4
 assign [class="pomatez"] $ws4
+assign [class="Google-chrome"] $ws6
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
