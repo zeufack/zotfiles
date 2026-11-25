@@ -42,6 +42,14 @@ echo ">> stow: ${PACKAGES[*]}"
 mkdir -p "$HOME/.config" "$HOME/.local/bin"
 stow -v -t "$HOME" "${PACKAGES[@]}"
 
+tpm="$HOME/.tmux/plugins/tpm"
+if [[ ! -d $tpm ]]; then
+    echo ">> tmux plugin manager"
+    git clone --depth 1 https://github.com/tmux-plugins/tpm "$tpm"
+fi
+echo ">> tmux plugins"
+"$tpm/bin/install_plugins"
+
 fish_path=$(command -v fish)
 if [[ $(getent passwd "$USER" | cut -d: -f7) != "$fish_path" ]]; then
     echo ">> login shell -> $fish_path"

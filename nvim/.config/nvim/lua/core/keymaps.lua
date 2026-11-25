@@ -3,11 +3,13 @@ vim.g.mapleader = " "
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- Window navigation
-map("n", "<C-h>", "<C-w>h", opts)
-map("n", "<C-j>", "<C-w>j", opts)
-map("n", "<C-k>", "<C-w>k", opts)
-map("n", "<C-l>", "<C-w>l", opts)
+-- Window navigation: moves between nvim splits and tmux panes (vim-tmux-navigator).
+-- Outside tmux these behave like <C-w>h/j/k/l.
+vim.g.tmux_navigator_no_mappings = 1
+map("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", opts)
+map("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", opts)
+map("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", opts)
+map("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", opts)
 
 -- File ops
 map("n", "<leader>w", ":w<CR>", { desc = "Save file" })

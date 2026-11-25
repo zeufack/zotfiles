@@ -205,4 +205,8 @@ pckr.add({
         cond = event("VimEnter"),
         config = cfg("which_key"),
     },
+
+    -- <C-h/j/k/l> across nvim splits and tmux panes (pairs with the tmux plugin).
+    -- Eager: tiny, and the keymaps in core/keymaps.lua call its commands.
+    "christoomey/vim-tmux-navigator",
 })
