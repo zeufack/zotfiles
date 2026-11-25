@@ -131,7 +131,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # expose android skd variable for react native
 export ANDROID_SDK_ROOT=$HOME/Android/Sdk
-export ANDROID_HOME=/home/zeufack/Android/Sdk
+export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
@@ -143,10 +143,10 @@ eval "$(starship init zsh)"
 alias python=python3
 
 # bun completions
-[ -s "/home/zeufack/.bun/_bun" ] && source "/home/zeufack/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
-export BUN_INSTALL="/home/zeufack/.bun"
+export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -164,7 +164,7 @@ export PATH=$PATH:/usr/bin/obsidian
 export PATH=~/bin:$PATH
 
 # pnpm
-export PNPM_HOME="/home/zeufack/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -172,13 +172,13 @@ esac
 # pnpm end
 
 # opencode
-export PATH=/home/zeufack/.opencode/bin:$PATH
+export PATH=$HOME/.opencode/bin:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/zeufack/google-cloud-sdk/path.zsh.inc' ]; then . '/home/zeufack/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/zeufack/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/zeufack/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 eval "$(zoxide init zsh)"

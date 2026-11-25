@@ -208,7 +208,7 @@ mode "resize" {
 }
 
 # Autostart applications
-exec_always --no-startup-id xwallpaper --daemon --zoom /home/zeufack/.config/xwallpaper/001.png
+exec_always --no-startup-id xwallpaper --daemon --zoom ~/.config/xwallpaper/001.png
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id numlockx on
 exec xset r rate 200 40
