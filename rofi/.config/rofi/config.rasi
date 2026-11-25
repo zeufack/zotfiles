@@ -2,8 +2,8 @@ configuration {
     modi:        "drun,run,window,ssh";
     show-icons:  true;
     icon-theme:  "Adwaita";
-    font:        "Fira Code 11";
-    terminal:    "ghostty";
+    font:        "JetBrains Mono 11";
+    terminal:    "foot";
     matching:    "fuzzy";
     sort:        true;
     sidebar-mode: false;

@@ -1,0 +1,47 @@
+/* Palette shared with sway, rofi, foot, dunst, swaylock */
+@define-color bg     #1E272B;
+@define-color bg-alt #2A3438;
+@define-color fg     #EAD49B;
+@define-color fg-dim #9D6A47;
+@define-color accent #78824B;
+@define-color red    #C0614E;
+
+* {
+    font-family: "JetBrains Mono", "Symbols Nerd Font", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @bg;
+    color: @fg;
+    border-bottom: 2px solid @bg-alt;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: @fg-dim;
+    background: transparent;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+}
+#workspaces button:hover { background: @bg-alt; box-shadow: none; }
+#workspaces button.focused { color: @fg; border-bottom-color: @accent; background: @bg-alt; }
+#workspaces button.urgent { color: @bg; background: @red; }
+
+#mode { background: @accent; color: @bg; padding: 0 10px; }
+
+#clock, #idle_inhibitor, #cpu, #memory, #backlight, #pulseaudio,
+#network, #battery, #tray, #scratchpad {
+    padding: 0 10px;
+}
+
+#clock { font-weight: bold; }
+#idle_inhibitor.activated { color: @accent; }
+#pulseaudio.muted, #network.disconnected { color: @fg-dim; }
+#battery.charging, #battery.plugged { color: @accent; }
+#battery.warning:not(.charging) { color: @fg-dim; }
+#battery.critical:not(.charging) { color: @bg; background: @red; }
+
+tooltip { background: @bg-alt; border: 1px solid @fg-dim; }
+tooltip label { color: @fg; }

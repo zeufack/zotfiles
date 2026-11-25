@@ -1,0 +1,165 @@
+# Sway config (ported from ../i3).
+#
+# Fedora's drop-ins in /usr/share/sway/config.d (volume/brightness/media keys,
+# swayidle, waybar, polkit agent, xdg autostart, systemd session) are layered in
+# at the bottom. A file in ~/.config/sway/config.d/ with the SAME name replaces
+# the system one; a new name just adds to it.
+
+### Variables
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term ~/.local/bin/sway-term
+set $menu rofi -show drun
+set $lock swaylock -f
+
+# Read by Fedora's drop-ins
+set $volume_step 5
+set $volume_limit 150
+set $brightness_step 5
+set $lock_timeout 300
+set $screen_timeout 60
+
+set $ws1 "1 Terminals"
+set $ws2 "2 Vscode"
+set $ws3 "3 Firefox"
+set $ws4 "4 Obsidian"
+set $ws5 "5 VLC"
+set $ws6 "6 Chrome"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+### Output
+# List outputs with: swaymsg -t get_outputs
+output * bg /usr/share/backgrounds/default.jxl fill
+exec_always ~/.config/sway/scripts/wallpaper.sh
+
+### Input
+# List devices with: swaymsg -t get_inputs
+input type:keyboard {
+    xkb_layout us
+    # xkb_options caps:escape
+    repeat_delay 300
+    repeat_rate 40
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+    middle_emulation enabled
+}
+
+### Appearance (same palette as rofi/waybar/foot)
+font pango:JetBrains Mono 10
+default_border pixel 2
+default_floating_border pixel 2
+titlebar_padding 6 3
+gaps inner 6
+smart_gaps on
+smart_borders on
+focus_follows_mouse yes
+mouse_warping container
+
+# class                 border  bg      text    indicator child_border
+client.focused          #9D6A47 #2A3438 #EAD49B #78824B   #9D6A47
+client.focused_inactive #2A3438 #1E272B #A89F84 #2A3438   #2A3438
+client.unfocused        #1E272B #1E272B #7A7666 #1E272B   #1E272B
+client.urgent           #C0614E #C0614E #1E272B #C0614E   #C0614E
+
+### Key bindings
+floating_modifier $mod normal
+
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+Tab exec rofi -show window
+bindsym $mod+Shift+v exec cliphist list | rofi -dmenu -p clip | cliphist decode | wl-copy
+bindsym $mod+Shift+q kill
+bindsym $mod+Escape exec $lock
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway? This ends your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# Focus / move (vim keys + arrows)
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Workspaces
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+bracketleft workspace prev_on_output
+bindsym $mod+bracketright workspace next_on_output
+bindsym $mod+grave workspace back_and_forth
+
+# Layout
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Resize
+mode "resize" {
+    bindsym $left resize shrink width 20px
+    bindsym $down resize grow height 20px
+    bindsym $up resize shrink height 20px
+    bindsym $right resize grow width 20px
+    bindsym Left resize shrink width 20px
+    bindsym Down resize grow height 20px
+    bindsym Up resize shrink height 20px
+    bindsym Right resize grow width 20px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+### Fedora drop-ins + ~/.config/sway/config.d overrides (keep last)
+include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
