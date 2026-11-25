@@ -4,4 +4,8 @@ require("nvim-tree").setup({
         enable = true,
         auto_open = true,
     },
+    filters = {
+        dotfiles = false,
+        git_ignored = false
+    }
 })
