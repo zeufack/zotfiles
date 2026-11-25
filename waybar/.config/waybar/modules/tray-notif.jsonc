@@ -1,0 +1,24 @@
+// Notification button talks to dunst instead of SwayNC.
+{
+  "custom/tray-arrow": {
+    "format": "{icon}",
+    "tooltip": true,
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰏖",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓"
+    },
+    "return-type": "json",
+    "interval": 2,
+    "exec": "~/.config/waybar/scripts/dunst-status.sh",
+    "on-click": "dunstctl history-pop",
+    "on-click-middle": "dunstctl history-clear",
+    "on-click-right": "dunstctl set-paused toggle"
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 10,
+    "show-passive-items": true
+  }
+}

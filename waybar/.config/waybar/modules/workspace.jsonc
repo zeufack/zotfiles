@@ -1,0 +1,37 @@
+// Adapted from athena's hyprland/workspaces for sway (see LICENSE.athena).
+// Workspace names must match $ws1..$ws5 in ~/.config/sway/config.
+{
+  "sway/workspaces": {
+    "format": "{icon} {windows}",
+    "disable-scroll": true,
+    "all-outputs": true,
+    "persistent-workspaces": {
+      "1 Terminals": [],
+      "2 Vscode": [],
+      "3 Firefox": [],
+      "4 Obsidian": [],
+      "5 VLC": []
+    },
+    "window-rewrite-default": "󰊠",
+    "window-rewrite": {
+      "class<foot|com\\.mitchellh\\.ghostty|kitty>": "󰆍",
+      "class<code|code-url-handler|Code>": "󰨞",
+      "class<firefox|org\\.mozilla\\.firefox>": "",
+      "class<google-chrome|Google-chrome>": "",
+      "class<obsidian>": "󰹕",
+      "class<thunar|Thunar>": "",
+      "class<vlc|mpv|org\\.videolan\\.VLC>": "󰕼",
+      "class<imv|swappy>": "󰄄",
+      "class<org\\.gnome\\.FileRoller>": "",
+      "class<blueman-manager>": "",
+      "class<pavucontrol>": "󱕂",
+      "class<nm-connection-editor>": "󰐻"
+    },
+    "format-icons": {
+      "focused": "󰮯",
+      "urgent": "󰧵",
+      "persistent": "",
+      "default": "󰊠"
+    }
+  }
+}

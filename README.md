@@ -19,7 +19,7 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 | Package    | What                                                                    |
 |------------|-------------------------------------------------------------------------|
 | `sway`     | Window manager. Layers on Fedora's `/usr/share/sway/config.d` drop-ins |
-| `waybar`   | Status bar                                                              |
+| `waybar`   | Status bar, based on [athena](https://github.com/haikal-hakim/athena) (MIT) and adapted for sway. Colours in `tokens/colors.css` |
 | `swaylock` | Lock screen (`$mod+Escape`, and automatically after 5 min)              |
 | `dunst`    | Notifications                                                           |
 | `foot`     | Terminal (fallback when ghostty isn't installed)                        |
@@ -41,5 +41,8 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 | `$mod+Shift+s`                     | Annotate an area with swappy          |
 | `$mod+Pause`                       | Passthrough mode (for VMs/remote desktop) |
 
+Wallpaper: put an image at `~/Pictures/wallpaper.jpg` (or .png/.webp/.jxl) and reload sway.
+
 The colour palette (`#1E272B` bg, `#EAD49B` fg, `#78824B` accent) is shared
-across sway, waybar, rofi, foot, dunst and swaylock.
+across sway, rofi, foot, dunst and swaylock. Waybar keeps athena's blue
+Material palette for now.

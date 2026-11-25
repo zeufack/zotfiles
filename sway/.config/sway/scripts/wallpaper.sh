@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
-# Set a random wallpaper from ~/Pictures/wallpapers; keep Fedora's default if empty.
-dir="${WALLPAPER_DIR:-$HOME/Pictures/wallpapers}"
-[ -d "$dir" ] || exit 0
-img=$(find "$dir" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.jxl' \) | shuf -n 1)
-[ -n "$img" ] && swaymsg output '*' bg "$img" fill >/dev/null
+# Single wallpaper: ~/Pictures/wallpaper.{jpg,jpeg,png,webp,jxl}, first one found.
+# Without one, sway keeps Fedora's default from `output * bg` in the config.
+for ext in jpg jpeg png webp jxl; do
+    img="$HOME/Pictures/wallpaper.$ext"
+    if [ -f "$img" ]; then
+        exec swaymsg output '*' bg "$img" fill >/dev/null
+    fi
+done
