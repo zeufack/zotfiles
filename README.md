@@ -96,6 +96,7 @@ Picture-in-picture videos float and stay on every workspace.
 | Passwords | gnome-keyring, unlocked by the login screen (VS Code, Chrome, git) |
 | SSH keys | ssh-agent (systemd), shared with every app via `~/.config/environment.d/`. Run `ssh-add` once per login, or let the first `ssh`/`git push` ask (`AddKeysToAgent yes`) |
 | Monitors | kanshi (see [Monitors](#monitors)) |
+| Fingerprint | Unlocks the lock screen (press Enter, then touch the sensor) and `sudo`. Enroll with `fprintd-enroll`; the login screen still asks for the password, which also unlocks the keyring |
 
 ### Input and look
 
