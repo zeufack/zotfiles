@@ -46,9 +46,10 @@ fi
 if pgrep -x dunst >/dev/null; then
     dunstctl reload 2>/dev/null || pkill -x dunst   # D-Bus restarts it on the next notification
 fi
-# Running fish shells re-source their colours when this universal variable changes
+# Tide prompt colours are universal variables; then running fish shells re-source
+# their colours when the universal $zot_theme changes
 if command -v fish >/dev/null; then
-    fish -c "set -U zot_theme $name"
+    fish -c "functions -q tide; and source '$current/tide.fish'; set -U zot_theme $name"
 fi
 # Running nvim instances: each listens on $XDG_RUNTIME_DIR/nvim.<pid>.0
 for sock in "${XDG_RUNTIME_DIR:-/run/user/$UID}"/nvim.*.0; do

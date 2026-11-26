@@ -9,7 +9,7 @@ Each top-level folder is a package that mirrors `$HOME`.
 git clone git@github.com:zeufack/zotfiles.git ~/zotfiles
 cd ~/zotfiles
 ./bootstrap.sh              # packages, fonts, stow, fish as login shell
-WITH_COPR=1 ./bootstrap.sh  # also starship + ghostty from COPR
+WITH_COPR=1 ./bootstrap.sh  # also ghostty from COPR
 ```
 
 Or link single packages: `stow -t ~ sway waybar fish`.

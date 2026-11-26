@@ -7,11 +7,13 @@ if status is-interactive
     function __zot_theme_apply --on-variable zot_theme
         set -l f ~/.config/themes/current/fish.fish
         test -f $f; and source $f
+        # tide caches two of its colours per shell
+        functions -q _tide_cache_variables; and _tide_cache_variables
     end
     __zot_theme_apply
 
     # Hook in tools only when they're installed
-    type -q starship; and starship init fish | source
+    # Prompt: tide (fisher plugin, see conf.d/00-fisher.fish), configured by bootstrap.sh
     type -q zoxide; and zoxide init fish | source
     type -q fzf; and fzf --fish | source
     type -q direnv; and direnv hook fish | source

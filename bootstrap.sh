@@ -3,7 +3,7 @@
 # and make fish the login shell. Safe to re-run.
 #
 #   ./bootstrap.sh              # Fedora repos only
-#   WITH_COPR=1 ./bootstrap.sh  # also starship + ghostty from COPR
+#   WITH_COPR=1 ./bootstrap.sh  # also ghostty from COPR
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -23,10 +23,9 @@ echo ">> dnf packages"
 sudo dnf install -y "${DNF_PKGS[@]}"
 
 if [[ ${WITH_COPR:-0} == 1 ]]; then
-    echo ">> COPR: starship, ghostty"
-    sudo dnf copr enable -y atim/starship
+    echo ">> COPR: ghostty"
     sudo dnf copr enable -y scottames/ghostty
-    sudo dnf install -y starship ghostty
+    sudo dnf install -y ghostty
 fi
 
 # Icons for waybar, eza and nvim (Fedora doesn't package Nerd Fonts)
@@ -50,6 +49,20 @@ if [[ ! -d $tpm ]]; then
 fi
 echo ">> tmux plugins"
 "$tpm/bin/install_plugins"
+
+echo ">> fish plugins: fisher, tide (from fish/.config/fish/fish_plugins)"
+if ! fish -c 'functions -q fisher'; then
+    fish -c 'curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher update'
+fi
+if ! fish -c 'set -q tide_left_prompt_items'; then
+    # Rainbow two-line prompt, close to powerlevel10k's default; rerun `tide configure` to change
+    fish -c 'tide configure --auto --style=Rainbow --prompt_colors="True color" \
+        --show_time="24-hour format" --rainbow_prompt_separators=Angled \
+        --powerline_prompt_heads=Sharp --powerline_prompt_tails=Flat \
+        --powerline_prompt_style="Two lines, character" --prompt_connection=Disconnected \
+        --powerline_right_prompt_frame=No --prompt_spacing=Sparse --icons="Many icons" --transient=No'
+    "$HOME/.local/bin/theme-set" "$(basename "$(readlink "$HOME/.config/themes/current" 2>/dev/null || echo tokyo-night)")"
+fi
 
 if [[ ! -e $HOME/.config/themes/current ]]; then
     echo ">> theme: tokyo-night"
