@@ -3,7 +3,7 @@
     follow = keyboard
     width = 360
     origin = top-right
-    offset = (10, 38)
+    offset = (10, 50)   # clears the 42px waybar
     gap_size = 6
     padding = 10
     horizontal_padding = 12

@@ -12,8 +12,9 @@ PACKAGES=(sway waybar swaylock dunst foot rofi fish tmux nvim)
 DNF_PKGS=(
     stow fish tmux neovim
     foot rofi waybar dunst swaylock swayidle
-    grim slurp wl-clipboard cliphist swappy wlsunset
+    grim slurp grimshot wl-clipboard cliphist swappy wlsunset
     brightnessctl playerctl pavucontrol blueman xdg-desktop-portal-wlr
+    network-manager-applet tuned-ppd Thunar
     fzf zoxide eza bat fd-find ripgrep git-delta lazygit btop fastfetch direnv
     jetbrains-mono-fonts-all
 )
