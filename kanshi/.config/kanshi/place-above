@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# Put the external monitor above the laptop screen, centred horizontally.
+# Run by kanshi's `docked` profile; works for any monitor size or scale.
+# Test without a monitor: OUTPUTS=fake.json DRY_RUN=1 place-above
+LAPTOP=${LAPTOP:-eDP-1}
+
+if [ -n "${OUTPUTS:-}" ]; then json=$(cat "$OUTPUTS"); else json=$(swaymsg -t get_outputs); fi
+
+# Logical sizes (already divided by scale): "name width height"
+laptop=$(printf '%s' "$json" | jq -r --arg l "$LAPTOP" '.[] | select(.active and .name == $l) | "\(.name) \(.rect.width) \(.rect.height)"')
+ext=$(printf '%s' "$json" | jq -r --arg l "$LAPTOP" '[.[] | select(.active and .name != $l)][0] // empty | "\(.name) \(.rect.width) \(.rect.height)"')
+[ -n "$laptop" ] && [ -n "$ext" ] || exit 0
+
+set -- $laptop; lname=$1 lw=$2
+set -- $ext;    ename=$1 ew=$2 eh=$3
+
+if [ "$ew" -ge "$lw" ]; then ex=0 lx=$(( (ew - lw) / 2 )); else ex=$(( (lw - ew) / 2 )) lx=0; fi
+
+run() { if [ -n "${DRY_RUN:-}" ]; then echo "swaymsg $*"; else swaymsg "$@" >/dev/null; fi; }
+run output "$ename" position "$ex" 0
+run output "$lname" position "$lx" "$eh"

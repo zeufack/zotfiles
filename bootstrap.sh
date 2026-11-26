@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-PACKAGES=(sway waybar themes dunst foot rofi fish tmux nvim wlogout zathura)
+PACKAGES=(sway waybar themes dunst foot rofi fish tmux nvim wlogout zathura kanshi)
 
 DNF_PKGS=(
     stow fish tmux neovim
@@ -71,6 +71,9 @@ if [[ ! -e $HOME/.config/themes/current ]]; then
     echo ">> theme: tokyo-night"
     "$HOME/.local/bin/theme-set" tokyo-night
 fi
+
+echo ">> kanshi (monitor profiles, starts with the sway session)"
+systemctl --user enable kanshi.service
 
 echo ">> GTK: dark mode"
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark

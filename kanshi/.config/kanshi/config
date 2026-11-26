@@ -1,0 +1,18 @@
+# Monitor profiles (kanshi picks the one matching what's plugged in).
+# Started by kanshi.service with the sway session (bootstrap.sh enables it).
+# After editing: kanshictl reload. Output names: swaymsg -t get_outputs
+#
+# To pin a specific monitor, replace `*` with its "Make Model Serial" string
+# from swaymsg, and add e.g. `mode 2560x1440@144Hz scale 1.25`.
+
+profile laptop {
+    output eDP-1 enable scale 1 position 0,0
+}
+
+# Any external monitor at its preferred resolution, centred above the laptop.
+# Positions depend on both screens' sizes, so a script sets them once applied.
+profile docked {
+    output eDP-1 enable scale 1
+    output * enable
+    exec ~/.config/kanshi/place-above
+}
