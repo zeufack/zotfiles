@@ -34,3 +34,9 @@ fish_add_path -g $PNPM_HOME
 test -f ~/google-cloud-sdk/path.fish.inc; and source ~/google-cloud-sdk/path.fish.inc
 
 # Node: nvm is bash-only. Use Fedora's nodejs, or `fisher install jorgebucaran/nvm.fish`.
+
+# ssh-agent (systemd socket) for shells outside sway, e.g. a TTY login.
+# Inside sway it's already set by ~/.config/environment.d/50-ssh-agent.conf.
+if not set -q SSH_AUTH_SOCK; and test -S $XDG_RUNTIME_DIR/ssh-agent.socket
+    set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
+end

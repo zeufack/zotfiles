@@ -51,6 +51,15 @@ fi
 echo ">> tmux plugins"
 "$tpm/bin/install_plugins"
 
+echo ">> ssh-agent (systemd socket, started at login)"
+systemctl --user enable --now ssh-agent.socket
+# Cache the key passphrase in the agent on first use, so it's asked once per login
+mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+if ! grep -qi '^ *AddKeysToAgent' "$HOME/.ssh/config" 2>/dev/null; then
+    printf 'Host *\n    AddKeysToAgent yes\n' >> "$HOME/.ssh/config"
+    chmod 600 "$HOME/.ssh/config"
+fi
+
 fish_path=$(command -v fish)
 if [[ $(getent passwd "$USER" | cut -d: -f7) != "$fish_path" ]]; then
     echo ">> login shell -> $fish_path"
