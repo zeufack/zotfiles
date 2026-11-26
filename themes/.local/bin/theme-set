@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Switch the desktop theme: theme-set <name>, or no argument for a rofi picker.
+# Themes live in ~/.config/themes/<name>/; ~/.config/themes/current points at
+# the active one and every app config imports its file from there.
+#   theme-set --list      list theme names
+#   theme-set --current   print the active theme
+set -euo pipefail
+
+dir="$HOME/.config/themes"
+current="$dir/current"
+
+themes() { find "$dir/" -mindepth 1 -maxdepth 1 -type d ! -name current -printf '%f\n' | sort; }
+active() { basename "$(readlink "$current" 2>/dev/null || echo none)"; }
+
+case "${1:-}" in
+    --list) themes; exit ;;
+    --current) active; exit ;;
+    "")
+        now=$(active)
+        name=$(themes | sed "s/^$now\$/$now  (current)/" \
+            | rofi -dmenu -i -p theme | sed 's/  (current)$//') || exit 0
+        ;;
+    *) name=$1 ;;
+esac
+
+[[ -n $name ]] || exit 0
+if [[ ! -d $dir/$name ]]; then
+    echo "theme-set: no theme '$name' (have: $(themes | tr '\n' ' '))" >&2
+    exit 1
+fi
+
+ln -sfn "$name" "$current"
+
+# dunst only reads drop-ins from its own folder, so link the theme file there
+mkdir -p "$HOME/.config/dunst/dunstrc.d"
+ln -sfn "$current/dunst.conf" "$HOME/.config/dunst/dunstrc.d/90-theme.conf"
+
+# Reload what's running. Each step is skipped when the app isn't.
+# sway reload also restarts waybar (Fedora's bar block) and re-runs the wallpaper script.
+if [[ -n ${SWAYSOCK:-} ]] && pgrep -x sway >/dev/null; then
+    swaymsg reload >/dev/null
+fi
+if tmux info &>/dev/null; then
+    tmux source-file "$HOME/.tmux.conf"
+fi
+if pgrep -x dunst >/dev/null; then
+    dunstctl reload 2>/dev/null || pkill -x dunst   # D-Bus restarts it on the next notification
+fi
+# Running fish shells re-source their colours when this universal variable changes
+if command -v fish >/dev/null; then
+    fish -c "set -U zot_theme $name"
+fi
+# Running nvim instances: each listens on $XDG_RUNTIME_DIR/nvim.<pid>.0
+for sock in "${XDG_RUNTIME_DIR:-/run/user/$UID}"/nvim.*.0; do
+    [[ -S $sock ]] || continue
+    timeout 2 nvim --server "$sock" --remote-expr 'luaeval("ThemeReload and ThemeReload() or 0")' \
+        >/dev/null 2>&1 || true
+done
+
+title=$(sed -n '1s/^# \(.*\)(.*/\1/p' "$current/sway.conf" | sed 's/:.*//; s/ *$//')
+if [[ -n ${WAYLAND_DISPLAY:-} ]] && command -v notify-send >/dev/null; then
+    notify-send -a theme-set "Theme: ${title:-$name}" "Open foot windows keep the old colours until reopened." || true
+else
+    echo "theme: ${title:-$name}"
+fi

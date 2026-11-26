@@ -1,4 +1,5 @@
 # Only overrides; everything else uses dunst's defaults.
+# Colours come from the active theme via dunstrc.d/90-theme.conf (theme-set).
 [global]
     follow = keyboard
     width = 360
@@ -14,24 +15,14 @@
     icon_position = left
     max_icon_size = 48
     progress_bar = true
-    highlight = "#7AA2F7"
     mouse_left_click = do_action, close_current
     mouse_right_click = close_all
 
 [urgency_low]
-    background = "#1A1B26"
-    foreground = "#737AA2"
-    frame_color = "#292E42"
     timeout = 4
 
 [urgency_normal]
-    background = "#1A1B26"
-    foreground = "#C0CAF5"
-    frame_color = "#BB9AF7"
     timeout = 6
 
 [urgency_critical]
-    background = "#1A1B26"
-    foreground = "#C0CAF5"
-    frame_color = "#F7768E"
     timeout = 0

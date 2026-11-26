@@ -1,2 +1,6 @@
 .netrwhist
 fish_variables
+
+# Active theme and its dunst link are local state, set by theme-set
+themes/.config/themes/current
+dunst/.config/dunst/dunstrc.d/90-theme.conf

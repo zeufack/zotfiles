@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-PACKAGES=(sway waybar swaylock dunst foot rofi fish tmux nvim)
+PACKAGES=(sway waybar themes dunst foot rofi fish tmux nvim)
 
 DNF_PKGS=(
     stow fish tmux neovim
@@ -50,6 +50,11 @@ if [[ ! -d $tpm ]]; then
 fi
 echo ">> tmux plugins"
 "$tpm/bin/install_plugins"
+
+if [[ ! -e $HOME/.config/themes/current ]]; then
+    echo ">> theme: tokyo-night"
+    "$HOME/.local/bin/theme-set" tokyo-night
+fi
 
 echo ">> ssh-agent (systemd socket, started at login)"
 systemctl --user enable --now ssh-agent.socket

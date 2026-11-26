@@ -19,8 +19,8 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 | Package    | What                                                                    |
 |------------|-------------------------------------------------------------------------|
 | `sway`     | Window manager. Layers on Fedora's `/usr/share/sway/config.d` drop-ins |
-| `waybar`   | Status bar, based on [athena](https://github.com/haikal-hakim/athena) (MIT) and adapted for sway. Colours in `tokens/colors.css` |
-| `swaylock` | Lock screen (`$mod+Escape`, and automatically after 5 min)              |
+| `waybar`   | Status bar, based on [athena](https://github.com/haikal-hakim/athena) (MIT) and adapted for sway. Colours come from the active theme |
+| `themes`   | Colour themes and `theme-set` (see below). Includes each theme's swaylock config |
 | `dunst`    | Notifications                                                           |
 | `foot`     | Terminal (fallback when ghostty isn't installed)                        |
 | `rofi`     | Launcher (`$mod+d`), window switcher (`$mod+Tab`), clipboard (`$mod+Shift+v`) |
@@ -40,10 +40,28 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 | `Print`, `$mod+Print`, `Shift+Print` | Screenshot screen / window / area (add Ctrl to copy) |
 | `$mod+Shift+s`                     | Annotate an area with swappy          |
 | `$mod+Pause`                       | Passthrough mode (for VMs/remote desktop) |
+| `$mod+Escape`                      | Lock (also automatic after 5 min)     |
+| `$mod+Shift+t`                     | Pick a theme                          |
 
 Wallpaper: put an image at `~/Pictures/wallpaper.jpg` (or .png/.webp/.jxl) and reload sway.
 
-The colour palette is [Tokyo Night](https://github.com/folke/tokyonight.nvim)
-(`#1A1B26` bg, `#C0CAF5` fg, `#7AA2F7` blue, `#BB9AF7` magenta), shared across
-sway, waybar, rofi, foot, dunst, swaylock, tmux, fish and nvim. Waybar's copy
-lives in `tokens/colors.css`.
+## Themes
+
+Every app takes its colours from `~/.config/themes/current/`, a link to one of
+the themes in `themes/.config/themes/`: Tokyo Night (default), Catppuccin Mocha,
+Kanagawa and Rosé Pine.
+
+```sh
+theme-set              # rofi picker, also on $mod+Shift+t
+theme-set kanagawa     # switch directly
+theme-set --list       # theme names; --current prints the active one
+```
+
+Switching reloads sway, waybar, tmux and dunst, and recolours running fish shells
+and nvim. Open foot windows keep the old colours until reopened.
+
+A theme is a folder with one file per app: `sway.conf`, `waybar.css`,
+`rofi.rasi`, `foot.ini`, `dunst.conf`, `swaylock.conf`, `tmux.conf`, `fish.fish`
+and `nvim.lua` (the colorscheme name; its plugin must be in `nvim/lua/plugins.lua`).
+Copy an existing theme to make a new one. Drop a `wallpaper.jpg` (or .png/.webp/.jxl)
+in a theme to ship a wallpaper; `~/Pictures/wallpaper.*` still wins if present.

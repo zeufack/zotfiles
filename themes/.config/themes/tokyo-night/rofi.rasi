@@ -1,0 +1,8 @@
+/* Tokyo Night (imported by ~/.config/rofi/config.rasi) */
+* {
+    bg:      #1A1B26;
+    bg-alt:  #292E42;
+    fg:      #C0CAF5;
+    fg-dim:  #BB9AF7;
+    accent:  #7AA2F7;
+}

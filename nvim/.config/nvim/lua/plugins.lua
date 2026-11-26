@@ -24,12 +24,24 @@ local function on_dir_arg()
     end
 end
 
+-- Colorscheme from the desktop theme. theme-set calls ThemeReload() in every
+-- running nvim over its RPC socket, so open editors switch too.
+local function apply_theme()
+    local ok, theme = pcall(dofile, vim.fn.expand("~/.config/themes/current/nvim.lua"))
+    local name = ok and type(theme) == "table" and theme.colorscheme or "tokyonight-night"
+    if not pcall(vim.cmd.colorscheme, name) then
+        pcall(vim.cmd.colorscheme, "tokyonight-night")
+    end
+end
+_G.ThemeReload = apply_theme
+
 pckr.add({
-    -- Theme: eager so colors apply before the first paint.
-    {
-        "folke/tokyonight.nvim",
-        config = function() vim.cmd.colorscheme("tokyonight-night") end,
-    },
+    -- Themes: eager so colors apply before the first paint. The active one comes
+    -- from ~/.config/themes/current/nvim.lua (theme-set); see apply_theme above.
+    { "folke/tokyonight.nvim" },
+    { "catppuccin/nvim" },
+    { "rebelot/kanagawa.nvim" },
+    { "rose-pine/neovim" },
 
     -- Treesitter (+ JSX/HTML auto-tags via ts-autotag)
     {
@@ -210,3 +222,6 @@ pckr.add({
     -- Eager: tiny, and the keymaps in core/keymaps.lua call its commands.
     "christoomey/vim-tmux-navigator",
 })
+
+-- After pckr.add so every colorscheme plugin above is on the runtimepath
+apply_theme()

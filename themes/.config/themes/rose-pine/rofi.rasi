@@ -1,0 +1,8 @@
+/* Rosé Pine (imported by ~/.config/rofi/config.rasi) */
+* {
+    bg:      #191724;
+    bg-alt:  #26233A;
+    fg:      #E0DEF4;
+    fg-dim:  #EBBCBA;
+    accent:  #C4A7E7;
+}

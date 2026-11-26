@@ -1,0 +1,8 @@
+/* Kanagawa (imported by ~/.config/rofi/config.rasi) */
+* {
+    bg:      #1F1F28;
+    bg-alt:  #2A2A37;
+    fg:      #DCD7BA;
+    fg-dim:  #957FB8;
+    accent:  #7E9CD8;
+}

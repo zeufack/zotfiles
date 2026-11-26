@@ -14,7 +14,7 @@ set $right l
 
 set $term ~/.local/bin/sway-term
 set $menu rofi -show drun
-set $lock swaylock -f
+set $lock swaylock -f -C ~/.config/themes/current/swaylock.conf
 
 # Read by Fedora's drop-ins
 set $volume_step 5
@@ -55,7 +55,7 @@ input type:touchpad {
     middle_emulation enabled
 }
 
-### Appearance (same palette as rofi/waybar/foot)
+### Appearance
 font pango:JetBrains Mono 10
 default_border pixel 2
 default_floating_border pixel 2
@@ -66,11 +66,8 @@ smart_borders on
 focus_follows_mouse yes
 mouse_warping container
 
-# class                 border  bg      text    indicator child_border
-client.focused          #BB9AF7 #292E42 #C0CAF5 #7AA2F7   #BB9AF7
-client.focused_inactive #292E42 #1A1B26 #737AA2 #292E42   #292E42
-client.unfocused        #1A1B26 #1A1B26 #565F89 #1A1B26   #1A1B26
-client.urgent           #F7768E #F7768E #1A1B26 #F7768E   #F7768E
+# Window colours come from the active theme (theme-set, $mod+Shift+t)
+include ~/.config/themes/current/sway.conf
 
 ### Key bindings
 floating_modifier $mod normal
@@ -82,6 +79,7 @@ bindsym $mod+Shift+v exec cliphist list | rofi -dmenu -p clip | cliphist decode 
 bindsym $mod+Shift+q kill
 bindsym $mod+Escape exec $lock
 bindsym $mod+Shift+c reload
+bindsym $mod+Shift+t exec ~/.local/bin/theme-set
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway? This ends your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Focus / move (vim keys + arrows)
