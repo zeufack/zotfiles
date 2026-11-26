@@ -9,7 +9,7 @@ Each top-level folder is a package that mirrors `$HOME`.
 git clone git@github.com:zeufack/zotfiles.git ~/zotfiles
 cd ~/zotfiles
 ./bootstrap.sh              # packages, fonts, stow, fish as login shell
-WITH_COPR=1 ./bootstrap.sh  # also ghostty from COPR
+WITH_COPR=1 ./bootstrap.sh  # also ghostty + yazi from COPR
 ```
 
 Or link single packages: `stow -t ~ sway waybar fish`.
@@ -26,6 +26,8 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 | `rofi`     | Launcher (`$mod+d`), window switcher (`$mod+Tab`), clipboard (`$mod+Shift+v`) |
 | `fish`     | Shell: env in `conf.d/env.fish`, abbreviations in `config.fish`         |
 | `tmux`     | Prefix `C-a`, vi keys                                                   |
+| `wlogout`  | Power menu (`$mod+Shift+e`): lock, logout, suspend, reboot, shutdown   |
+| `zathura`  | PDF viewer (vim keys, Ctrl+r for dark pages)                            |
 | `nvim`     | Lua config with pckr.nvim, LSP via mason                                |
 | `i3`, `zsh`| Previous X11 setup, kept for reference                                  |
 
@@ -40,6 +42,8 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 | `Print`, `$mod+Print`, `Shift+Print` | Screenshot screen / window / area (add Ctrl to copy) |
 | `$mod+Shift+s`                     | Annotate an area with swappy          |
 | `$mod+Pause`                       | Passthrough mode (for VMs/remote desktop) |
+| `$mod+Shift+r`                     | Record an area or window; press again to stop (saved to ~/Videos) |
+| `$mod+Shift+e`                     | Power menu                            |
 | `$mod+Escape`                      | Lock (also automatic after 5 min)     |
 | `$mod+Shift+t`                     | Pick a theme                          |
 

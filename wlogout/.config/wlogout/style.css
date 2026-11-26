@@ -1,0 +1,41 @@
+/* Power menu ($mod+Shift+e). Colours come from the active theme: waybar's
+   theme file, which resolves from ~/.config/wlogout/ to ~/.config/themes/current/. */
+@import "../themes/current/waybar.css";
+
+* {
+    background-image: none;
+    box-shadow: none;
+    font-family: "JetBrains Mono";
+    font-size: 12px;
+}
+
+window {
+    background-color: alpha(@background, 0.85);
+}
+
+button {
+    color: @on_surface;
+    background-color: @surface_container;
+    border: 2px solid @surface_container;
+    border-radius: 0;
+    margin: 8px;          /* keep in sync with MARGIN in ~/.local/bin/power-menu */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35%;
+}
+
+button:focus,
+button:hover,
+button:active {
+    background-color: @surface_container_highest;
+    border-color: @primary;
+    color: @primary;
+    outline-style: none;
+}
+
+#lock      { background-image: image(url("/usr/share/wlogout/icons/lock.png")); }
+#logout    { background-image: image(url("/usr/share/wlogout/icons/logout.png")); }
+#suspend   { background-image: image(url("/usr/share/wlogout/icons/suspend.png")); }
+#hibernate { background-image: image(url("/usr/share/wlogout/icons/hibernate.png")); }
+#shutdown  { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }
+#reboot    { background-image: image(url("/usr/share/wlogout/icons/reboot.png")); }

@@ -3,11 +3,11 @@
 # and make fish the login shell. Safe to re-run.
 #
 #   ./bootstrap.sh              # Fedora repos only
-#   WITH_COPR=1 ./bootstrap.sh  # also ghostty from COPR
+#   WITH_COPR=1 ./bootstrap.sh  # also ghostty + yazi from COPR
 set -euo pipefail
 cd "$(dirname "$0")"
 
-PACKAGES=(sway waybar themes dunst foot rofi fish tmux nvim)
+PACKAGES=(sway waybar themes dunst foot rofi fish tmux nvim wlogout zathura)
 
 DNF_PKGS=(
     stow fish tmux neovim
@@ -15,6 +15,8 @@ DNF_PKGS=(
     grim slurp grimshot wl-clipboard cliphist swappy wlsunset
     brightnessctl playerctl pavucontrol blueman xdg-desktop-portal-wlr
     network-manager-applet tuned-ppd Thunar
+    wlogout udiskie gnome-keyring wf-recorder kanshi jq
+    zathura zathura-pdf-mupdf
     fzf zoxide eza bat fd-find ripgrep git-delta lazygit btop fastfetch direnv
     jetbrains-mono-fonts-all
 )
@@ -23,9 +25,10 @@ echo ">> dnf packages"
 sudo dnf install -y "${DNF_PKGS[@]}"
 
 if [[ ${WITH_COPR:-0} == 1 ]]; then
-    echo ">> COPR: ghostty"
+    echo ">> COPR: ghostty, yazi"
     sudo dnf copr enable -y scottames/ghostty
-    sudo dnf install -y ghostty
+    sudo dnf copr enable -y lihaohong/yazi
+    sudo dnf install -y ghostty yazi
 fi
 
 # Icons for waybar, eza and nvim (Fedora doesn't package Nerd Fonts)
@@ -68,6 +71,10 @@ if [[ ! -e $HOME/.config/themes/current ]]; then
     echo ">> theme: tokyo-night"
     "$HOME/.local/bin/theme-set" tokyo-night
 fi
+
+echo ">> GTK: dark mode"
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
 echo ">> ssh-agent (systemd socket, started at login)"
 systemctl --user enable --now ssh-agent.socket

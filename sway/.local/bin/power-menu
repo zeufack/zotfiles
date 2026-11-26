@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# Power menu ($mod+Shift+e): wlogout as one centred row of square tiles.
+# TILE is the square's size in pixels; wlogout itself only takes margins, so
+# they're worked out from the focused screen's size.
+TILE=${TILE:-140}
+MARGIN=8            # per side, matches `margin` in ~/.config/wlogout/style.css
+BUTTONS=6
+
+if ! command -v wlogout >/dev/null; then
+    exec swaynag -t warning -m 'Exit sway? This ends your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+fi
+
+pkill -x wlogout && exit 0   # pressing the key again closes it
+
+set -- $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | "\(.rect.width) \(.rect.height)"')
+w=${1:-1920} h=${2:-1080}
+cell=$((TILE + 2 * MARGIN))
+lr=$(( (w - BUTTONS * cell) / 2 )); [ "$lr" -lt 0 ] && lr=0
+tb=$(( (h - cell) / 2 ));           [ "$tb" -lt 0 ] && tb=0
+
+exec wlogout -p layer-shell -b "$BUTTONS" -L "$lr" -R "$lr" -T "$tb" -B "$tb"

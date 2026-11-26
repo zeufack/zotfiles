@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+# Toggle screen recording ($mod+Shift+r): first press records a selected area
+# (click a window, or Escape for the whole screen), second press stops.
+# Files go to ~/Videos (your XDG videos folder).
+if pgrep -x wf-recorder >/dev/null; then
+    pkill -INT -x wf-recorder
+    exit 0
+fi
+
+command -v wf-recorder >/dev/null || { notify-send "Recording" "wf-recorder isn't installed"; exit 1; }
+
+dir=$(xdg-user-dir VIDEOS 2>/dev/null || echo "$HOME/Videos")
+mkdir -p "$dir"
+file="$dir/recording-$(date +%Y-%m-%d_%H-%M-%S).mp4"
+
+# Area, or the focused output if the selection is cancelled
+geom=$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp 2>/dev/null) || geom=""
+if [ -n "$geom" ]; then
+    set -- -g "$geom"
+else
+    set -- -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')"
+fi
+
+notify-send -a recorder -t 2000 "Recording" "Press \$mod+Shift+r again to stop"
+wf-recorder "$@" -f "$file" >/dev/null 2>&1
+notify-send -a recorder "Recording saved" "$file"

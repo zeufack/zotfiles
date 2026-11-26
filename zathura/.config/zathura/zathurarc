@@ -1,0 +1,7 @@
+# PDF viewer. Colours come from the active theme (theme-set).
+include ../themes/current/zathurarc
+
+set selection-clipboard clipboard
+set adjust-open         width
+set font                "JetBrains Mono 10"
+set guioptions          s
