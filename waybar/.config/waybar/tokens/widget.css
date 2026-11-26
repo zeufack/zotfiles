@@ -14,27 +14,27 @@
 }
 
 #custom-terminal {
-  color: #a6e3a1;
+  color: @ok;
   padding: 0px 10px;
 }
 
 #custom-code {
-  color: #89b4fa;
+  color: @blue;
   padding: 0px 10px;
 }
 
 #custom-files {
-  color: #f9e2af;
+  color: @magenta;
   padding: 0px 10px 0px 8px;
 }
 
 #custom-browser {
-  color: #fab387;
+  color: @primary;
   padding: 0px 10px;
 }
 
 #custom-chrome {
-  color: #89dceb;
+  color: @teal;
   padding: 0px 15px 0px 10px;
 }
 

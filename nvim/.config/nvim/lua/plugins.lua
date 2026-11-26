@@ -28,7 +28,7 @@ pckr.add({
     -- Theme: eager so colors apply before the first paint.
     {
         "folke/tokyonight.nvim",
-        config = function() vim.cmd.colorscheme("tokyonight") end,
+        config = function() vim.cmd.colorscheme("tokyonight-night") end,
     },
 
     -- Treesitter (+ JSX/HTML auto-tags via ts-autotag)

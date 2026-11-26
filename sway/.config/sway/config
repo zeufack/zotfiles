@@ -67,10 +67,10 @@ focus_follows_mouse yes
 mouse_warping container
 
 # class                 border  bg      text    indicator child_border
-client.focused          #9D6A47 #2A3438 #EAD49B #78824B   #9D6A47
-client.focused_inactive #2A3438 #1E272B #A89F84 #2A3438   #2A3438
-client.unfocused        #1E272B #1E272B #7A7666 #1E272B   #1E272B
-client.urgent           #C0614E #C0614E #1E272B #C0614E   #C0614E
+client.focused          #BB9AF7 #292E42 #C0CAF5 #7AA2F7   #BB9AF7
+client.focused_inactive #292E42 #1A1B26 #737AA2 #292E42   #292E42
+client.unfocused        #1A1B26 #1A1B26 #565F89 #1A1B26   #1A1B26
+client.urgent           #F7768E #F7768E #1A1B26 #F7768E   #F7768E
 
 ### Key bindings
 floating_modifier $mod normal

@@ -18,11 +18,11 @@ configuration {
 }
 
 * {
-    bg:      #1E272B;
-    bg-alt:  #2A3438;
-    fg:      #EAD49B;
-    fg-dim:  #9D6A47;
-    accent:  #78824B;
+    bg:      #1A1B26;
+    bg-alt:  #292E42;
+    fg:      #C0CAF5;
+    fg-dim:  #BB9AF7;
+    accent:  #7AA2F7;
 
     background-color: transparent;
     text-color:       @fg;

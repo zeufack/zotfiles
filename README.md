@@ -43,6 +43,7 @@ Or link single packages: `stow -t ~ sway waybar fish`.
 
 Wallpaper: put an image at `~/Pictures/wallpaper.jpg` (or .png/.webp/.jxl) and reload sway.
 
-The colour palette (`#1E272B` bg, `#EAD49B` fg, `#78824B` accent) is shared
-across sway, rofi, foot, dunst and swaylock. Waybar keeps athena's blue
-Material palette for now.
+The colour palette is [Tokyo Night](https://github.com/folke/tokyonight.nvim)
+(`#1A1B26` bg, `#C0CAF5` fg, `#7AA2F7` blue, `#BB9AF7` magenta), shared across
+sway, waybar, rofi, foot, dunst, swaylock, tmux, fish and nvim. Waybar's copy
+lives in `tokens/colors.css`.

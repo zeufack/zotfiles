@@ -1,20 +1,25 @@
+@import "colors.css";
+
 #custom-tray-arrow.inhibited-none,
 #custom-tray-arrow.dnd-none,
 #battery.charging,
 #power-profiles-daemon.power-saver {
-  color: #a6e3a1;
+  color: @ok;
 }
 
 
 #idle_inhibitor.activated,
-#cpu.warning,
-#disk.warning,
-#memory.warning,
-#battery.warning:not(.charging),
 #custom-tray-arrow.notification,
 #custom-tray-arrow.dnd-notification,
 #custom-tray-arrow.inhibited-notification {
-  color: #f9e2af;
+  color: @magenta;
+}
+
+#cpu.warning,
+#disk.warning,
+#memory.warning,
+#battery.warning:not(.charging) {
+  color: @warn;
 }
 
 #network.disabled,
@@ -26,5 +31,5 @@
 #power-profiles-daemon.performance,
 #custom-tray-arrow.dnd-inhibited-none,
 #custom-tray-arrow.dnd-inhibited-notification {
-  color: #f38ba8;
+  color: @crit;
 }
