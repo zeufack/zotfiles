@@ -1,0 +1,7 @@
+{
+  "sway/language": {
+    "format": "󰌌 <span size='11pt'>{short}</span>",
+    "tooltip-format": "{long} (Alt+Shift or click to switch)",
+    "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+  }
+}

@@ -8,6 +8,14 @@
   color: @secondary_fixed_dim;
 }
 
+#language {
+  margin: 4px 5px;
+  padding: 6px 14px;
+  background-color: @pill;
+  border-radius: 20px;
+  color: @secondary_fixed_dim;
+}
+
 #clock {
   margin: 4px 5px;
   padding: 6px 10px 6px 16px;

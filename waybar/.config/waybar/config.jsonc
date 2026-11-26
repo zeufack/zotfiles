@@ -16,6 +16,7 @@
     "./modules/idle-inhibitor.jsonc",
     "./modules/audio.jsonc",
     "./modules/connections.jsonc",
+    "./modules/language.jsonc",
     "./modules/battery.jsonc",
     "./modules/clock.jsonc",
     "./modules/tray-notif.jsonc"
@@ -33,6 +34,7 @@
   "modules-right": [
     "group/audio",
     "group/connections",
+    "sway/language",
     "battery",
     "clock",
     "group/tray-group"

@@ -99,7 +99,8 @@ Picture-in-picture videos float and stay on every workspace.
 
 ### Input and look
 
-Keyboard: US layout, repeat after 300 ms at 40/s. Touchpad: tap to click,
+Keyboard: US and French AZERTY, switched with `Alt+Shift` or by clicking the
+layout label in waybar; repeat after 300 ms at 40/s. Touchpad: tap to click,
 natural scrolling, disabled while typing. Font: JetBrains Mono, with Nerd Font
 symbols for icons. 6px gaps, 2px borders, focus follows the mouse.
 

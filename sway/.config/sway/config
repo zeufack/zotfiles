@@ -42,8 +42,10 @@ exec_always ~/.config/sway/scripts/wallpaper.sh
 ### Input
 # List devices with: swaymsg -t get_inputs
 input type:keyboard {
-    xkb_layout us
-    # xkb_options caps:escape
+    # US and French AZERTY; Alt+Shift (or the waybar label) switches
+    xkb_layout us,fr
+    xkb_options grp:alt_shift_toggle
+    # add ,caps:escape to the options to make Caps Lock an extra Escape
     repeat_delay 300
     repeat_rate 40
 }
